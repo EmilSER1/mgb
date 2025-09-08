@@ -1,0 +1,143 @@
+generator client {
+    provider = "prisma-client-js"
+    binaryTargets = ["native", "linux-musl-arm64-openssl-3.0.x"]
+    output = "/home/ubuntu/mgb_hospital_app/app/node_modules/.prisma/client"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+model Floor {
+  id          String       @id @default(cuid())
+  floorNumber Int          @unique
+  name        String
+  blocks      Block[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  @@map("floors")
+}
+
+model Block {
+  id           String       @id @default(cuid())
+  code         String       // A, Б, В
+  name         String
+  floorId      String
+  floor        Floor        @relation(fields: [floorId], references: [id], onDelete: Cascade)
+  departments  Department[]
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+
+  @@unique([code, floorId])
+  @@map("blocks")
+}
+
+model Department {
+  id          String   @id @default(cuid())
+  name        String
+  code        String?
+  description String?
+  blockId     String
+  block       Block    @relation(fields: [blockId], references: [id], onDelete: Cascade)
+  rooms       Room[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("departments")
+}
+
+model Room {
+  id           String      @id @default(cuid())
+  code         String      // 1.EMR-01, 2.AC-DHT-01, etc.
+  name         String
+  area         Float?      // площадь в м2
+  description  String?
+  departmentId String
+  department   Department  @relation(fields: [departmentId], references: [id], onDelete: Cascade)
+  equipment    Equipment[]
+  roomMappings RoomMapping[]
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+
+  @@unique([code, departmentId])
+  @@map("rooms")
+}
+
+model Equipment {
+  id                String   @id @default(cuid())
+  code              String   // M-001, M-002, 11-001, etc.
+  name              String
+  quantity          Int      @default(1)
+  unit              String   @default("шт.") // ед. изм.
+  notes             String?  // примечания
+  roomId            String
+  room              Room     @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@map("equipment")
+}
+
+// Модель для данных Турар (отдельная структура)
+model TurarDepartment {
+  id          String      @id @default(cuid())
+  name        String      // Отделение/Блок
+  description String?
+  rooms       TurarRoom[]
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  @@map("turar_departments")
+}
+
+model TurarRoom {
+  id           String             @id @default(cuid())
+  name         String             // Помещение/Кабинет
+  description  String?
+  departmentId String
+  department   TurarDepartment    @relation(fields: [departmentId], references: [id], onDelete: Cascade)
+  equipment    TurarEquipment[]
+  roomMappings RoomMapping[]
+  createdAt    DateTime           @default(now())
+  updatedAt    DateTime           @updatedAt
+
+  @@map("turar_rooms")
+}
+
+model TurarEquipment {
+  id        String    @id @default(cuid())
+  code      String    // Код оборудования
+  name      String    // Наименование
+  quantity  Int       @default(1)
+  roomId    String
+  room      TurarRoom @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@map("turar_equipment")
+}
+
+model DepartmentMapping {
+  id                     String  @id @default(cuid())
+  turarDepartmentName    String  // Название отделения из Турар
+  projectDepartmentName  String  // Название отделения из Проектировщики
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @updatedAt
+
+  @@map("department_mappings")
+}
+
+model RoomMapping {
+  id                String @id @default(cuid())
+  turarRoomId       String
+  projectRoomId     String
+  turarRoom         TurarRoom @relation(fields: [turarRoomId], references: [id], onDelete: Cascade)
+  projectRoom       Room @relation(fields: [projectRoomId], references: [id], onDelete: Cascade)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@unique([turarRoomId, projectRoomId])
+  @@map("room_mappings")
+}
