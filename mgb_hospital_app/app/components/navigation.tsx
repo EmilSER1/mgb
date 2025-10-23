@@ -11,7 +11,7 @@ export function Navigation() {
 
   const navItems = [
     {
-      name: 'Главная',
+      name: 'Главная!',
       href: '/',
       icon: Home,
     },
