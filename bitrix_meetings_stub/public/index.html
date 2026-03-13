@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Рейтинг встреч за сегодня</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="container">
+      <header class="header">
+        <div>
+          <h1>Рейтинг встреч за сегодня</h1>
+          <p>Заглушка для будущей интеграции с Bitrix webhook</p>
+        </div>
+        <button id="refreshBtn" class="btn">Обновить</button>
+      </header>
+
+      <section class="kpis">
+        <article class="card">
+          <p class="label">Всего назначено</p>
+          <p id="totalMeetings" class="value">0</p>
+        </article>
+        <article class="card">
+          <p class="label">Активных сотрудников</p>
+          <p id="activeEmployees" class="value">0</p>
+        </article>
+        <article class="card">
+          <p class="label">Лидер дня</p>
+          <p id="leader" class="value leader">—</p>
+        </article>
+      </section>
+
+      <section class="table-wrap card">
+        <div class="table-head">
+          <h2>Таблица рейтинга</h2>
+          <small id="updatedAt">Обновлено: —</small>
+        </div>
+        <div id="error" class="error hidden"></div>
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Сотрудник</th>
+              <th>Должность</th>
+              <th>Встреч</th>
+            </tr>
+          </thead>
+          <tbody id="ratingBody"></tbody>
+        </table>
+      </section>
+    </main>
+
+    <div id="toast" class="toast hidden"></div>
+
+    <script src="/app.js"></script>
+  </body>
+</html>

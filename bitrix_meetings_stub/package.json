@@ -1,0 +1,12 @@
+{
+  "name": "bitrix-meetings-stub",
+  "version": "0.2.0",
+  "private": true,
+  "description": "Simple HTML + Node server for Bitrix meetings rating",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
