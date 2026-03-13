@@ -56,3 +56,21 @@ npm start
 
 ## 6) Что правим дальше
 Когда отправите webhook и точные поля, докрутим фильтры и отображаемые колонки под ваш Bitrix.
+
+
+## 7) Создать архив для хостинга
+```bash
+cd bitrix_meetings_stub
+./build-archive.sh
+```
+
+Скрипт создаст `.tar.gz` в папке `dist/` и выведет полный путь к архиву.
+
+Распаковка на сервере:
+```bash
+tar -xzf bitrix_meetings_stub_YYYYMMDD_HHMMSS.tar.gz
+cd bitrix_meetings_stub
+cp .env.example .env
+# заполните .env
+node server.js
+```
