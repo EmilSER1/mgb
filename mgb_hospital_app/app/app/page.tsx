@@ -1,6 +1,6 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Building2, Users, Database, AlertCircle } from 'lucide-react'
+import { Building2, Users, Database, AlertCircle, Trophy } from 'lucide-react'
 import Link from 'next/link'
 
 export default function HomePage() {
@@ -21,7 +21,7 @@ export default function HomePage() {
       </div>
 
       {/* Main Sections */}
-      <div className="grid md:grid-cols-3 gap-6">
+      <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-6">
         <Link href="/floors" className="group">
           <Card className="h-full transition-all duration-300 hover:shadow-lg hover:scale-105 border-0 shadow-md bg-white/70 backdrop-blur">
             <CardHeader className="space-y-4">
@@ -81,6 +81,27 @@ export default function HomePage() {
               <div className="flex items-center gap-2 text-sm text-amber-600 font-medium">
                 <AlertCircle className="w-4 h-4" />
                 Будущая функциональность
+              </div>
+            </CardContent>
+          </Card>
+        </Link>
+
+        <Link href="/meetings-rating" className="group">
+          <Card className="h-full transition-all duration-300 hover:shadow-lg hover:scale-105 border-0 shadow-md bg-white/70 backdrop-blur">
+            <CardHeader className="space-y-4">
+              <div className="w-12 h-12 bg-rose-100 rounded-xl flex items-center justify-center group-hover:bg-rose-200 transition-colors">
+                <Trophy className="w-6 h-6 text-rose-600" />
+              </div>
+              <div>
+                <CardTitle className="text-xl text-gray-900">Рейтинг встреч</CardTitle>
+                <CardDescription className="text-gray-600">
+                  Сегодняшний рейтинг операторов по назначенным встречам с автообновлением и всплывающими уведомлениями
+                </CardDescription>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <div className="text-sm text-rose-600 font-medium group-hover:text-rose-700 transition-colors">
+                Открыть живой рейтинг →
               </div>
             </CardContent>
           </Card>

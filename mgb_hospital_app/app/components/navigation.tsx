@@ -3,7 +3,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Building2, Home, Users, Database } from 'lucide-react'
+import { Building2, Home, Users, Database, Trophy } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 export function Navigation() {
@@ -29,6 +29,11 @@ export function Navigation() {
       name: 'Таблица соединения',
       href: '/connections',
       icon: Database,
+    },
+    {
+      name: 'Рейтинг встреч',
+      href: '/meetings-rating',
+      icon: Trophy,
     },
   ]
 
